@@ -9,19 +9,32 @@
 void selection_sort(int *array, size_t size)
 {
 	size_t i, j;
-	int tmp;
+	int tmp, min;
+	int *swap = NULL;
+
+	if (array == NULL || size <= 1)
+		return;
 
 	for (i = 0; i < size - 1; i++)
 	{
+		min = i;
+		swap = malloc(sizeof(int) * 1);
+		*swap = array[i];
 		for (j = i + 1; j < size; j++)
 		{
-			if (array[i] > array[j])
+			if (array[min] > array[j])
 			{
-				tmp = array[i];
-				array[i] = array[j];
-				array[j] = tmp;
-				print_list(array);
+				min = j;
 			}
 		}
+		if (i != min)
+		{
+			array[i] = array[min];
+			array[min] = *swap;
+			free(swap);
+			print_array(array, size);
+		}
+		else
+			free(swap);
 	}
 }
