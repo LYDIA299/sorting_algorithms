@@ -1,76 +1,35 @@
 #include "sort.h"
-void swap(int *a, int *b);
-int partition(int *array, int low, int high, size_t size);
-void quicksort(int *array, int low, int high, size_t size);
 
 /**
- * quick_sort - sorts an array using quick sort algorithm
- * @array: array to sort
- * @size: size of an array
+ * selection_sort - sorts array of integers using selection sort algo
+ * @array: array to be sorted
+ * @size: size of the array
  * Return: nothing
  */
-void quick_sort(int *array, size_t size)
+void selection_sort(int *array, size_t size)
 {
+	size_t i, j;
+	int tmp, min_val, min_index;
+
 	if (array == NULL || size <= 1)
 		return;
-	quicksort(array, 0, size - 1, size);
-}
-
-/**
- * quicksort - sorts an array (a partition recursively)
- * @array: array to be sorted
- * @low: min index of the partition
- * @high: max index of the partition
- * @size: the size of the array to sort
- */
-void quicksort(int *array, int low, int high, size_t size)
-{
-	if (low < high) {
-		int pi = partition(array, low, high, size);
-		quicksort(array, low, pi - 1, size);
-		quicksort(array, pi + 1, high, size);
-	}
-}
-
-/**
- * partition - sort an array of integers using quick_sort
- *lomuto implementation with pivot in last element of partition
- * @array: array to sort
- * @low: minimum value
- * @high: max value
- * @size: the size of the array to sort
- * Return: index + 1
- */
-int partition(int *array, int low, int high, size_t size)
-{
-	int pivot, i, j;
-
-
-	pivot = array[high];
-	i = low - 1;
-
-	for (j = low; j <= high - 1; j++) {
-		if (array[j] < pivot) {
-			i++;
-			swap(&array[i], &array[j]);
+	for (i = 0; i < (size - 1); i++)
+	{
+		min_index = i;
+		min_val = array[i];
+		for (j = i + 1; j < size; j++)
+		{
+			if (array[j] < min_val)
+			{
+				min_val = array[j];
+				min_index = j;
+			}
+		}
+		if (array[i] != min_val)
+		{
+			array[min_index] = array[i];
+			array[i] = min_val;
 			print_array(array, size);
 		}
 	}
-	swap(&array[i + 1], &array[high]);
-	print_array(array, size);
-	return i + 1;
-}
-
-/**
- * swap_aray - swaps two elements
- * @a: first element
- * @b: second element
- * Return: nothing
- */
-void swap(int *a, int *b)
-{
-	int temp = *a;
-
-	*a = *b;
-	*b = temp;
 }
